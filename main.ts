@@ -8,12 +8,24 @@ function dospeed () {
     }
     SetHeight(Speed)
 }
+function shoot () {
+    bolt = game.createSprite(Sf.get(LedSpriteProperty.X), Sf.get(LedSpriteProperty.Y))
+    for (let index = 0; index < 4; index++) {
+        bolt.change(LedSpriteProperty.X, 1)
+        basic.pause(200)
+    }
+    bolt.delete()
+}
+input.onButtonPressed(Button.B, function () {
+    shoot()
+})
 function SetHeight (Spd: number) {
     Sf.set(LedSpriteProperty.Y, 4 - Spd)
 }
 let B3: game.LedSprite = null
 let B2: game.LedSprite = null
 let B1: game.LedSprite = null
+let bolt: game.LedSprite = null
 let Speed = 0
 let Sf: game.LedSprite = null
 Sf = game.createSprite(1, 3)
@@ -33,7 +45,7 @@ basic.forever(function () {
     B2.delete()
 })
 basic.forever(function () {
-    basic.pause(1000)
+    basic.pause(2000)
     if (Speed > 1) {
         Speed += -1
         SetHeight(Speed)
