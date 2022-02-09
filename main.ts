@@ -36,6 +36,13 @@ function shoot () {
 input.onButtonPressed(Button.B, function () {
     shoot()
 })
+input.onGesture(Gesture.Shake, function () {
+    music.playTone(262, music.beat(BeatFraction.Whole))
+    Droid += 1
+    if (1 < Droid) {
+        Droid = 0
+    }
+})
 function SetHeight (Spd: number) {
     Sf.set(LedSpriteProperty.Y, 4 - Spd)
 }
@@ -44,11 +51,27 @@ let B2: game.LedSprite = null
 let B1: game.LedSprite = null
 let bolt: game.LedSprite = null
 let Ast: game.LedSprite = null
+let Droid = 0
 let Speed = 0
 let Sf: game.LedSprite = null
 Sf = game.createSprite(1, 3)
 Speed = 1
+images.createBigImage(`
+    . . . . . . # # # #
+    . . . . . # # # . .
+    . . # # # # . # # #
+    . . . . . # # # . .
+    . . . . . . # # # #
+    `).scrollImage(1, 200)
+images.createBigImage(`
+    . . . . . # . . . .
+    . # . . . . . . . .
+    . . . . . . . . . .
+    . . . . # . . . . .
+    . . . . . . . . . .
+    `).scrollImage(1, 200)
 game.setLife(3)
+Droid = 0
 basic.forever(function () {
     B1 = game.createSprite(0, 4)
     B2 = game.createSprite(2, 4)
@@ -62,6 +85,17 @@ basic.forever(function () {
     basic.pause(500 / Speed)
     B1.delete()
     B2.delete()
+})
+basic.forever(function () {
+    if (Droid == 1) {
+        for (let index = 0; index < 4; index++) {
+            dospeed()
+        }
+        for (let index = 0; index < 10; index++) {
+            shoot()
+        }
+        basic.pause(100)
+    }
 })
 basic.forever(function () {
     basic.pause(2000)
