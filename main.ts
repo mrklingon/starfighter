@@ -48,7 +48,7 @@ let Speed = 0
 let Sf: game.LedSprite = null
 Sf = game.createSprite(1, 3)
 Speed = 1
-game.setLife(10)
+game.setLife(3)
 basic.forever(function () {
     B1 = game.createSprite(0, 4)
     B2 = game.createSprite(2, 4)
