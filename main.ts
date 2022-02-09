@@ -8,11 +8,28 @@ function dospeed () {
     }
     SetHeight(Speed)
 }
+function doAsteroid () {
+    Ast = game.createSprite(4, randint(0, 4))
+    Ast.turn(Direction.Right, 180)
+    for (let index = 0; index < 4; index++) {
+        Ast.move(1)
+        if (Ast.isTouching(Sf)) {
+            Ast.delete()
+            game.removeLife(1)
+        }
+        basic.pause(150)
+    }
+    Ast.delete()
+}
 function shoot () {
     bolt = game.createSprite(Sf.get(LedSpriteProperty.X), Sf.get(LedSpriteProperty.Y))
     for (let index = 0; index < 4; index++) {
         bolt.change(LedSpriteProperty.X, 1)
-        basic.pause(200)
+        if (bolt.isTouching(Ast)) {
+            Ast.delete()
+            game.addScore(5)
+        }
+        basic.pause(100)
     }
     bolt.delete()
 }
@@ -26,10 +43,12 @@ let B3: game.LedSprite = null
 let B2: game.LedSprite = null
 let B1: game.LedSprite = null
 let bolt: game.LedSprite = null
+let Ast: game.LedSprite = null
 let Speed = 0
 let Sf: game.LedSprite = null
 Sf = game.createSprite(1, 3)
 Speed = 1
+game.setLife(10)
 basic.forever(function () {
     B1 = game.createSprite(0, 4)
     B2 = game.createSprite(2, 4)
@@ -50,4 +69,8 @@ basic.forever(function () {
         Speed += -1
         SetHeight(Speed)
     }
+})
+basic.forever(function () {
+    basic.pause(500 * randint(1, 4))
+    doAsteroid()
 })
